@@ -52,7 +52,9 @@ export const useTimelineStore = create<TimelineStore>((set, get) => ({
     const state = get();
 
     if (!state.isPlaying || state.isPaused) {
-      set({ deltaTime: 0 });
+      if (state.deltaTime !== 0) {
+        set({ deltaTime: 0 });
+      }
       return;
     }
 
@@ -60,10 +62,16 @@ export const useTimelineStore = create<TimelineStore>((set, get) => ({
     const nextElapsedTime = state.elapsedTime + adjustedDelta;
     const nextProgress = clamp(nextElapsedTime / TIMELINE_DURATION_SECONDS, 0, 1);
 
-    set({
-      elapsedTime: nextElapsedTime,
-      deltaTime: adjustedDelta,
-      progress: nextProgress,
-    });
+    if (
+      state.elapsedTime !== nextElapsedTime ||
+      state.deltaTime !== adjustedDelta ||
+      state.progress !== nextProgress
+    ) {
+      set({
+        elapsedTime: nextElapsedTime,
+        deltaTime: adjustedDelta,
+        progress: nextProgress,
+      });
+    }
   },
 }));
