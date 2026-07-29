@@ -1,0 +1,43 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { EngineCanvas } from "../renderer";
+import { EngineLighting } from "../lighting";
+import { EngineCamera } from "../camera";
+import { SceneManager } from "../scene";
+import type { SceneKey } from "../scene/sceneRegistry";
+import { EngineContextProvider } from "./engineContext";
+import { useLoadingStore } from "../loading";
+
+export default function EngineProvider() {
+  const setLoadingState = useLoadingStore((state) => state.setLoadingState);
+  const [currentScene, setCurrentScene] = useState<SceneKey>("Intro");
+
+  const engineContextValue = useMemo(
+    () => ({
+      id: "ayenda-odyssey-engine",
+      currentScene,
+      setActiveScene: setCurrentScene,
+    }),
+    [currentScene],
+  );
+
+  useEffect(() => {
+    setLoadingState({
+      isLoading: false,
+      progress: 1,
+      currentStage: "ready",
+    });
+  }, [setLoadingState]);
+
+  return (
+    <EngineContextProvider value={engineContextValue}>
+      <EngineCanvas>
+        <color attach="background" args={["#000000"]} />
+        <EngineCamera />
+        <EngineLighting />
+        <SceneManager />
+      </EngineCanvas>
+    </EngineContextProvider>
+  );
+}

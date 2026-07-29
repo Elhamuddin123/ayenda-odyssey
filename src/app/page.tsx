@@ -1,3 +1,5 @@
+import { EngineProvider } from "../core/engine";
+
 export default function HomePage() {
-  return null;
+  return <EngineProvider />;
 }
