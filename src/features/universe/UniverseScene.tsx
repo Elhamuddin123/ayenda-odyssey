@@ -1,7 +1,7 @@
 "use client";
 
 import { Background } from "./Background";
-import { Stars } from "./Stars";
+import { Starfield } from "./stars";
 import { Nebula } from "./nebula";
 
 export function UniverseScene() {
@@ -9,7 +9,7 @@ export function UniverseScene() {
     <>
       <Background />
       <Nebula />
-      <Stars />
+      <Starfield />
     </>
   );
 }
