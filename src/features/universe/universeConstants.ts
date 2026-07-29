@@ -1,0 +1,9 @@
+export const STAR_COUNT = 5000;
+export const STAR_FIELD_RADIUS = 320;
+export const STAR_FIELD_DEPTH = 120;
+export const STAR_MIN_SIZE = 0.35;
+export const STAR_MAX_SIZE = 1.1;
+export const STAR_BASE_BRIGHTNESS = 0.75;
+export const STAR_BRIGHTNESS_VARIANCE = 0.26;
+export const BACKGROUND_SPHERE_RADIUS = 480;
+export const BACKGROUND_SEGMENTS = 36;

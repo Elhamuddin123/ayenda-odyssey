@@ -12,7 +12,7 @@ import { TimelineProvider } from "../timeline";
 
 export default function EngineProvider() {
   const setLoadingState = useLoadingStore((state) => state.setLoadingState);
-  const [currentScene, setCurrentScene] = useState<SceneKey>("Intro");
+  const [currentScene, setCurrentScene] = useState<SceneKey>("Universe");
 
   const engineContextValue = useMemo(
     () => ({
