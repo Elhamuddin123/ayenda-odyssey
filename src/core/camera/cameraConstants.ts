@@ -1,0 +1,7 @@
+export const CAMERA_DRIFT_AMPLITUDE = 0.16;
+export const CAMERA_DRIFT_SPEED = 0.12;
+export const CAMERA_ROTATION_AMPLITUDE = 0.018;
+export const CAMERA_ROTATION_SPEED = 0.08;
+export const CAMERA_BASE_POSITION_Y = 2;
+export const CAMERA_BASE_POSITION_Z = 6;
+export const CAMERA_BASE_POSITION_X = 0;

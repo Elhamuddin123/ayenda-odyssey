@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { EngineCanvas } from "../renderer";
 import { EngineLighting } from "../lighting";
-import { EngineCamera } from "../camera";
+import { CameraRig } from "../camera";
 import { SceneManager } from "../scene";
 import type { SceneKey } from "../scene/sceneRegistry";
 import { EngineContextProvider } from "./engineContext";
@@ -36,7 +36,7 @@ export default function EngineProvider() {
       <TimelineProvider>
         <EngineCanvas>
           <color attach="background" args={["#000000"]} />
-          <EngineCamera />
+          <CameraRig />
           <EngineLighting />
           <SceneManager />
         </EngineCanvas>
