@@ -7,6 +7,8 @@ import {
   CAMERA_BASE_POSITION_X,
   CAMERA_BASE_POSITION_Y,
   CAMERA_BASE_POSITION_Z,
+  CAMERA_MICRO_ROTATION,
+  CAMERA_ROLL_AMOUNT,
 } from "./cameraConstants";
 
 export function computeCameraTarget(time: number, outPosition: Vector3, outRotation: Euler) {
@@ -15,9 +17,14 @@ export function computeCameraTarget(time: number, outPosition: Vector3, outRotat
   const driftY = Math.cos(time * CAMERA_DRIFT_SPEED * 0.7) * CAMERA_DRIFT_AMPLITUDE * 0.55;
   const driftZ = Math.sin(time * CAMERA_DRIFT_SPEED * 0.35) * CAMERA_DRIFT_AMPLITUDE * 0.12;
 
-  const rotX = Math.sin(time * CAMERA_ROTATION_SPEED * 0.7) * CAMERA_ROTATION_AMPLITUDE * 0.8;
-  const rotY = Math.cos(time * CAMERA_ROTATION_SPEED * 0.9) * CAMERA_ROTATION_AMPLITUDE * 0.95;
-  const rotZ = Math.sin(time * CAMERA_ROTATION_SPEED * 0.43) * CAMERA_ROTATION_AMPLITUDE * 0.5;
+  // micro rotations and roll to suggest craft stability
+  const microX = Math.sin(time * CAMERA_MICRO_ROTATION * 0.9) * CAMERA_MICRO_ROTATION * 0.8;
+  const microY = Math.cos(time * CAMERA_MICRO_ROTATION * 1.1) * CAMERA_MICRO_ROTATION * 0.9;
+  const roll = Math.sin(time * CAMERA_ROTATION_SPEED * 0.43) * CAMERA_ROLL_AMOUNT;
+
+  const rotX = Math.sin(time * CAMERA_ROTATION_SPEED * 0.7) * CAMERA_ROTATION_AMPLITUDE * 0.8 + microX;
+  const rotY = Math.cos(time * CAMERA_ROTATION_SPEED * 0.9) * CAMERA_ROTATION_AMPLITUDE * 0.95 + microY;
+  const rotZ = roll + Math.sin(time * CAMERA_ROTATION_SPEED * 0.43) * CAMERA_ROTATION_AMPLITUDE * 0.5;
 
   outPosition.set(
     CAMERA_BASE_POSITION_X + driftX,
