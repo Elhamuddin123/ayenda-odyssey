@@ -16,8 +16,8 @@ export const NEBULA_LAYER_DEFINITIONS: ReadonlyArray<NebulaLayerDefinition> = [
     position: [0, 0, -120],
     rotation: [0.12, 0.18, 0.02],
     scale: 1.8,
-    opacity: 0.06,
-    speed: 0.0009,
+    opacity: 0.05,
+    speed: 0.0008,
     color: [0.055, 0.08, 0.12],
   },
   {
@@ -25,8 +25,8 @@ export const NEBULA_LAYER_DEFINITIONS: ReadonlyArray<NebulaLayerDefinition> = [
     position: [0, -12, -60],
     rotation: [0.08, 0.06, -0.02],
     scale: 1.25,
-    opacity: 0.09,
-    speed: 0.0011,
+    opacity: 0.07,
+    speed: 0.0010,
     color: [0.06, 0.095, 0.135],
   },
   {
@@ -34,8 +34,8 @@ export const NEBULA_LAYER_DEFINITIONS: ReadonlyArray<NebulaLayerDefinition> = [
     position: [1, 14, -28],
     rotation: [0.02, -0.08, 0.05],
     scale: 0.95,
-    opacity: 0.12,
-    speed: 0.0016,
+    opacity: 0.09,
+    speed: 0.0014,
     color: [0.07, 0.11, 0.14],
   },
 ];

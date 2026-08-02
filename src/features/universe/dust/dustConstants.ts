@@ -3,7 +3,7 @@ import type { DustLayerDefinition } from "./dustTypes";
 export const DUST_LAYER_DEFINITIONS: ReadonlyArray<DustLayerDefinition> = [
   {
     key: "dustBackground",
-    count: 320,
+    count: 260,
     radiusMin: 170,
     radiusMax: 230,
     sizeMin: 0.14,
@@ -16,7 +16,7 @@ export const DUST_LAYER_DEFINITIONS: ReadonlyArray<DustLayerDefinition> = [
   },
   {
     key: "dustMid",
-    count: 260,
+    count: 220,
     radiusMin: 150,
     radiusMax: 190,
     sizeMin: 0.16,
@@ -29,7 +29,7 @@ export const DUST_LAYER_DEFINITIONS: ReadonlyArray<DustLayerDefinition> = [
   },
   {
     key: "dustNear",
-    count: 200,
+    count: 170,
     radiusMin: 120,
     radiusMax: 150,
     sizeMin: 0.18,
@@ -42,7 +42,7 @@ export const DUST_LAYER_DEFINITIONS: ReadonlyArray<DustLayerDefinition> = [
   },
   {
     key: "dustForeground",
-    count: 140,
+    count: 120,
     radiusMin: 90,
     radiusMax: 120,
     sizeMin: 0.22,

@@ -86,7 +86,7 @@ export function createStarLayerMaterial(definition: StarLayerDefinition) {
     uniforms: {
       uTime: { value: 0 },
       // Make hero twinkle extremely subtle
-      uTwinkleStrength: { value: definition.twinkle ? 0.04 : 0.0 },
+      uTwinkleStrength: { value: definition.twinkle ? 0.028 : 0.0 },
     },
   });
 }

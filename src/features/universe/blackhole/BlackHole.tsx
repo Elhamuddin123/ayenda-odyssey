@@ -4,10 +4,10 @@ import { useMemo } from "react";
 import type { BlackHoleConfig } from "./blackHoleTypes";
 import { EventHorizon } from "./EventHorizon";
 import { AccretionDisk } from "./AccretionDisk";
-import { BLACK_HOLE_DISTANCE, BLACK_HOLE_POSITION_Y } from "./blackHoleConstants";
+import { BLACK_HOLE_DISTANCE, BLACK_HOLE_POSITION_Y, BLACK_HOLE_POSITION_X } from "./blackHoleConstants";
 
 const DEFAULT_CONFIG: BlackHoleConfig = {
-  position: [ -12, BLACK_HOLE_POSITION_Y, BLACK_HOLE_DISTANCE ],
+  position: [BLACK_HOLE_POSITION_X, BLACK_HOLE_POSITION_Y, BLACK_HOLE_DISTANCE],
 };
 
 export function BlackHole({ position = DEFAULT_CONFIG.position }: BlackHoleConfig) {

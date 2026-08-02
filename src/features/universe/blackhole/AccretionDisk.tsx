@@ -23,9 +23,9 @@ export function AccretionDisk() {
       depthWrite: false,
       blending: THREE.NormalBlending,
       uniforms: {
-        // Slightly warmer, a touch brighter to create subtle focal pull
-        uColor: { value: new THREE.Color(0.99, 0.58, 0.18) },
-        uOpacity: { value: 0.19 },
+        // Muted warm amber – subtle and cinematic
+        uColor: { value: new THREE.Color(0.93, 0.52, 0.14) },
+        uOpacity: { value: 0.14 },
       },
       side: THREE.DoubleSide,
     });

@@ -9,19 +9,21 @@ import {
   CAMERA_BASE_POSITION_Z,
 } from "./cameraConstants";
 
-export function updateCameraMotion(time: number, position: Vector3, rotation: Euler) {
-  const driftX = Math.sin(time * CAMERA_DRIFT_SPEED * 0.8) * CAMERA_DRIFT_AMPLITUDE;
-  const driftY = Math.cos(time * CAMERA_DRIFT_SPEED * 0.65) * CAMERA_DRIFT_AMPLITUDE * 0.55;
-  const driftZ = Math.sin(time * CAMERA_DRIFT_SPEED * 0.35) * CAMERA_DRIFT_AMPLITUDE * 0.15;
+export function computeCameraTarget(time: number, outPosition: Vector3, outRotation: Euler) {
+  // Compute target position and rotation based on slow procedural motion.
+  const driftX = Math.sin(time * CAMERA_DRIFT_SPEED * 0.9) * CAMERA_DRIFT_AMPLITUDE;
+  const driftY = Math.cos(time * CAMERA_DRIFT_SPEED * 0.7) * CAMERA_DRIFT_AMPLITUDE * 0.55;
+  const driftZ = Math.sin(time * CAMERA_DRIFT_SPEED * 0.35) * CAMERA_DRIFT_AMPLITUDE * 0.12;
 
-  const rotX = Math.sin(time * CAMERA_ROTATION_SPEED * 0.7) * CAMERA_ROTATION_AMPLITUDE * 0.75;
-  const rotY = Math.cos(time * CAMERA_ROTATION_SPEED * 0.9) * CAMERA_ROTATION_AMPLITUDE;
+  const rotX = Math.sin(time * CAMERA_ROTATION_SPEED * 0.7) * CAMERA_ROTATION_AMPLITUDE * 0.8;
+  const rotY = Math.cos(time * CAMERA_ROTATION_SPEED * 0.9) * CAMERA_ROTATION_AMPLITUDE * 0.95;
   const rotZ = Math.sin(time * CAMERA_ROTATION_SPEED * 0.43) * CAMERA_ROTATION_AMPLITUDE * 0.5;
 
-  position.set(
+  outPosition.set(
     CAMERA_BASE_POSITION_X + driftX,
     CAMERA_BASE_POSITION_Y + driftY,
     CAMERA_BASE_POSITION_Z + driftZ,
   );
-  rotation.set(rotX, rotY, rotZ, "XYZ");
+  outRotation.set(rotX, rotY, rotZ, "XYZ");
 }
+
