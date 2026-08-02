@@ -14,7 +14,7 @@ import {
 export function AccretionDisk() {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  const [geometry, material] = useMemo(() => {
+    const [geometry, material] = useMemo(() => {
     const geometry = new THREE.RingGeometry(DISK_INNER_RADIUS, DISK_OUTER_RADIUS, DISK_SEGMENTS, 1);
     const material = new THREE.ShaderMaterial({
       vertexShader: accretionDiskVertexShader,
@@ -23,8 +23,9 @@ export function AccretionDisk() {
       depthWrite: false,
       blending: THREE.NormalBlending,
       uniforms: {
-        uColor: { value: new THREE.Color(0.95, 0.55, 0.16) },
-        uOpacity: { value: 0.16 },
+        // Slightly warmer, a touch brighter to create subtle focal pull
+        uColor: { value: new THREE.Color(0.99, 0.58, 0.18) },
+        uOpacity: { value: 0.19 },
       },
       side: THREE.DoubleSide,
     });

@@ -46,7 +46,8 @@ export function createDustGeometry(definition: DustLayerDefinition) {
     positions[i * 3 + 2] = radius * Math.cos(phi);
 
     sizes[i] = definition.sizeMin + Math.random() * (definition.sizeMax - definition.sizeMin);
-    brightness[i] = 0.8 + Math.random() * 0.16;
+    // Slightly reduce brightness variation for subtle dust
+    brightness[i] = 0.7 + Math.random() * 0.12;
   }
 
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));

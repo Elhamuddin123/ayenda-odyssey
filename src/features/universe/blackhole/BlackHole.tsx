@@ -7,7 +7,7 @@ import { AccretionDisk } from "./AccretionDisk";
 import { BLACK_HOLE_DISTANCE, BLACK_HOLE_POSITION_Y } from "./blackHoleConstants";
 
 const DEFAULT_CONFIG: BlackHoleConfig = {
-  position: [0, BLACK_HOLE_POSITION_Y, BLACK_HOLE_DISTANCE],
+  position: [ -12, BLACK_HOLE_POSITION_Y, BLACK_HOLE_DISTANCE ],
 };
 
 export function BlackHole({ position = DEFAULT_CONFIG.position }: BlackHoleConfig) {

@@ -4,8 +4,8 @@ import { useMemo } from "react";
 import * as THREE from "three";
 import { BACKGROUND_SEGMENTS, BACKGROUND_SPHERE_RADIUS } from "./universeConstants";
 
-const BASE_COLOR = new THREE.Color(0x020407);
-const COLOR_VARIANCE = 0.01;
+const BASE_COLOR = new THREE.Color(0x010305);
+const COLOR_VARIANCE = 0.006;
 
 export function Background() {
   const geometry = useMemo(() => {
@@ -15,7 +15,9 @@ export function Background() {
 
     for (let i = 0; i < count; i += 1) {
       const variation = (Math.random() - 0.5) * COLOR_VARIANCE;
-      const color = BASE_COLOR.clone().offsetHSL(0, 0, variation);
+      // Slightly bias darker toward the edges for cinematic depth
+      const edgeBias = Math.pow(Math.random(), 1.6) * -0.004;
+      const color = BASE_COLOR.clone().offsetHSL(0, 0, variation + edgeBias);
       colors[i * 3 + 0] = color.r;
       colors[i * 3 + 1] = color.g;
       colors[i * 3 + 2] = color.b;

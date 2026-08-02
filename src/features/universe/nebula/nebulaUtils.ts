@@ -14,6 +14,7 @@ const fragmentShader = `
 varying vec2 vUv;
 uniform vec3 uColor;
 uniform float uOpacity;
+uniform vec2 uOffset;
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -46,7 +47,7 @@ float fbm(vec2 p) {
 
 void main() {
   vec2 uv = vUv * 2.0 - 1.0;
-  float pattern = fbm(uv * 1.25 + vec2(0.17, 0.24));
+  float pattern = fbm(uv * 1.25 + uOffset);
   float edge = smoothstep(0.6, 0.15, length(uv));
   float mask = smoothstep(0.18, 0.58, pattern);
   float glow = pow(mask * edge, 1.7);
@@ -62,6 +63,7 @@ void main() {
 `;
 
 export function createNebulaMaterial(layer: NebulaLayerDefinition) {
+  const offset = new THREE.Vector2(Math.random() * 6.0, Math.random() * 6.0);
   return new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
@@ -71,6 +73,7 @@ export function createNebulaMaterial(layer: NebulaLayerDefinition) {
     uniforms: {
       uColor: { value: new THREE.Color(layer.color[0], layer.color[1], layer.color[2]) },
       uOpacity: { value: layer.opacity },
+      uOffset: { value: offset },
     },
   });
 }
