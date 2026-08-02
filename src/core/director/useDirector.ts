@@ -4,7 +4,7 @@ import { useDirectorStore } from "./DirectorState";
 import type { DirectorIntentions } from "./directorTypes";
 
 export function useDirector() {
-  const select = useShallow((s: any) => ({
+  const selectState = useShallow((s: any) => ({
     currentAct: s.currentAct,
     currentSceneKey: s.currentSceneKey,
     sceneDuration: s.sceneDuration,
@@ -15,16 +15,25 @@ export function useDirector() {
     transitionStyle: s.transitionStyle,
   }));
 
-  const state = useDirectorStore(select);
+  const state = useDirectorStore(selectState);
 
-  const actions = useDirectorStore((s) => ({
-    setScene: s.setScene,
-    setProgress: s.setProgress,
-    setCameraMood: s.setCameraMood,
-    setMusicMood: s.setMusicMood,
-    setVisualMood: s.setVisualMood,
-    setTransitionStyle: s.setTransitionStyle,
-  }));
+  const setScene = useDirectorStore((s) => s.setScene);
+  const setProgress = useDirectorStore((s) => s.setProgress);
+  const setCameraMood = useDirectorStore((s) => s.setCameraMood);
+  const setMusicMood = useDirectorStore((s) => s.setMusicMood);
+  const setVisualMood = useDirectorStore((s) => s.setVisualMood);
+  const setTransitionStyle = useDirectorStore((s) => s.setTransitionStyle);
 
-  return useMemo<DirectorIntentions & typeof actions>(() => ({ ...state, ...actions }), [state, actions]);
+  return useMemo(
+    () => ({
+      ...state,
+      setScene,
+      setProgress,
+      setCameraMood,
+      setMusicMood,
+      setVisualMood,
+      setTransitionStyle,
+    }),
+    [state, setScene, setProgress, setCameraMood, setMusicMood, setVisualMood, setTransitionStyle],
+  );
 }
