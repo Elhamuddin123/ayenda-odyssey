@@ -20,7 +20,9 @@ export function EngineCanvas({ children }: EngineCanvasProps) {
         powerPreference: "high-performance",
       }}
       onCreated={({ gl }) => {
-        (gl as unknown as { physicallyCorrectLights: boolean }).physicallyCorrectLights = true;
+        (
+          gl as unknown as { physicallyCorrectLights: boolean }
+        ).physicallyCorrectLights = true;
       }}
       dpr={dpr}
       performance={{ min: 1, max: 2 }}

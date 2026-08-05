@@ -4,19 +4,39 @@ import { useMemo } from "react";
 import type { BlackHoleConfig } from "./blackHoleTypes";
 import { EventHorizon } from "./EventHorizon";
 import { AccretionDisk } from "./AccretionDisk";
-import { BLACK_HOLE_DISTANCE, BLACK_HOLE_POSITION_Y, BLACK_HOLE_POSITION_X } from "./blackHoleConstants";
+import {
+  BLACK_HOLE_DISTANCE,
+  BLACK_HOLE_POSITION_Y,
+  BLACK_HOLE_POSITION_X,
+} from "./blackHoleConstants";
 
-const DEFAULT_CONFIG: BlackHoleConfig = {
-  position: [BLACK_HOLE_POSITION_X, BLACK_HOLE_POSITION_Y, BLACK_HOLE_DISTANCE],
-};
+export interface BlackHoleProps extends BlackHoleConfig {
+  readonly opacity?: number;
+  readonly scale?: number;
+  readonly diskOpacity?: number;
+  readonly diskGlow?: number;
+}
 
-export function BlackHole({ position = DEFAULT_CONFIG.position }: BlackHoleConfig) {
+const DEFAULT_POSITION: BlackHoleConfig["position"] = [
+  BLACK_HOLE_POSITION_X,
+  BLACK_HOLE_POSITION_Y,
+  BLACK_HOLE_DISTANCE,
+];
+
+export function BlackHole({
+  position = DEFAULT_POSITION,
+  opacity = 1,
+  scale = 1,
+  diskOpacity = 1,
+  diskGlow = 1,
+}: BlackHoleProps) {
   const scenePosition = useMemo(() => position, [position]);
+  const scaledScale = useMemo(() => scale, [scale]);
 
   return (
-    <group position={scenePosition}>
-      <EventHorizon />
-      <AccretionDisk />
+    <group position={scenePosition} scale={scaledScale}>
+      <EventHorizon opacity={opacity} />
+      <AccretionDisk opacity={diskOpacity * opacity} glow={diskGlow} />
     </group>
   );
 }

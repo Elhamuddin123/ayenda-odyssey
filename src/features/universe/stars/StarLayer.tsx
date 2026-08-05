@@ -9,9 +9,11 @@ import { createStarLayerGeometry, createStarLayerMaterial } from "./starGenerato
 
 interface StarLayerProps {
   readonly layer: StarLayerDefinition;
+  readonly opacityScale?: number;
+  readonly speedScale?: number;
 }
 
-export function StarLayer({ layer }: StarLayerProps) {
+export function StarLayer({ layer, opacityScale = 1, speedScale = 1 }: StarLayerProps) {
   const pointsRef = useRef<Points>(null);
   const materialRef = useRef<THREE.ShaderMaterial | null>(null);
 
@@ -25,10 +27,16 @@ export function StarLayer({ layer }: StarLayerProps) {
     materialRef.current = material;
   }, [material]);
 
+  useEffect(() => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uOpacity.value = opacityScale;
+    }
+  }, [opacityScale]);
+
   useFrame((_, delta) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * layer.speed;
-      pointsRef.current.rotation.x += delta * layer.speed * 0.09;
+      pointsRef.current.rotation.y += delta * layer.speed * speedScale;
+      pointsRef.current.rotation.x += delta * layer.speed * 0.09 * speedScale;
       if (layer.twinkle) {
         const shaderMaterial = materialRef.current;
         if (shaderMaterial) {

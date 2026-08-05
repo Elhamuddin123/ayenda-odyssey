@@ -37,7 +37,9 @@ export function createDustGeometry(definition: DustLayerDefinition) {
   const brightness = new Float32Array(definition.count);
 
   for (let i = 0; i < definition.count; i += 1) {
-    const radius = definition.radiusMin + Math.pow(Math.random(), 0.8) * (definition.radiusMax - definition.radiusMin);
+    const radius =
+      definition.radiusMin +
+      Math.pow(Math.random(), 0.8) * (definition.radiusMax - definition.radiusMin);
     const theta = Math.random() * Math.PI * 2;
     const phi = Math.acos(2 * Math.random() - 1);
 
@@ -45,7 +47,8 @@ export function createDustGeometry(definition: DustLayerDefinition) {
     positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
     positions[i * 3 + 2] = radius * Math.cos(phi);
 
-    sizes[i] = definition.sizeMin + Math.random() * (definition.sizeMax - definition.sizeMin);
+    sizes[i] =
+      definition.sizeMin + Math.random() * (definition.sizeMax - definition.sizeMin);
     // Slightly reduce brightness variation for subtle dust
     brightness[i] = 0.7 + Math.random() * 0.12;
   }
@@ -65,7 +68,13 @@ export function createDustMaterial(definition: DustLayerDefinition) {
     depthWrite: false,
     blending: THREE.NormalBlending,
     uniforms: {
-      uColor: { value: new THREE.Color(definition.color[0], definition.color[1], definition.color[2]) },
+      uColor: {
+        value: new THREE.Color(
+          definition.color[0],
+          definition.color[1],
+          definition.color[2],
+        ),
+      },
       uOpacity: { value: definition.opacity },
     },
   });

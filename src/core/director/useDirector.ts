@@ -1,10 +1,25 @@
 import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { useDirectorStore } from "./DirectorState";
+import { useDirectorStore, type DirectorState } from "./DirectorState";
 import type { DirectorIntentions } from "./directorTypes";
 
-export function useDirector() {
-  const selectState = useShallow((s: any) => ({
+type DirectorView = DirectorIntentions &
+  Pick<
+    DirectorState,
+    | "registry"
+    | "setScene"
+    | "setProgress"
+    | "setByElapsedTime"
+    | "setCinematicPhase"
+    | "advance"
+    | "complete"
+    | "reset"
+    | "skipToEnd"
+    | "jumpToAct"
+  >;
+
+export function useDirector(): DirectorView {
+  const selectState = useShallow((s: DirectorState) => ({
     currentAct: s.currentAct,
     currentSceneKey: s.currentSceneKey,
     sceneDuration: s.sceneDuration,
@@ -13,27 +28,27 @@ export function useDirector() {
     musicMood: s.musicMood,
     visualMood: s.visualMood,
     transitionStyle: s.transitionStyle,
+    cinematicPhase: s.cinematicPhase,
+    totalElapsedTime: s.totalElapsedTime,
+    totalDuration: s.totalDuration,
+    isClimax: s.isClimax,
+    registry: s.registry,
+  }));
+
+  const selectActions = useShallow((s: DirectorState) => ({
+    setScene: s.setScene,
+    setProgress: s.setProgress,
+    setByElapsedTime: s.setByElapsedTime,
+    setCinematicPhase: s.setCinematicPhase,
+    advance: s.advance,
+    complete: s.complete,
+    reset: s.reset,
+    skipToEnd: s.skipToEnd,
+    jumpToAct: s.jumpToAct,
   }));
 
   const state = useDirectorStore(selectState);
+  const actions = useDirectorStore(selectActions);
 
-  const setScene = useDirectorStore((s) => s.setScene);
-  const setProgress = useDirectorStore((s) => s.setProgress);
-  const setCameraMood = useDirectorStore((s) => s.setCameraMood);
-  const setMusicMood = useDirectorStore((s) => s.setMusicMood);
-  const setVisualMood = useDirectorStore((s) => s.setVisualMood);
-  const setTransitionStyle = useDirectorStore((s) => s.setTransitionStyle);
-
-  return useMemo(
-    () => ({
-      ...state,
-      setScene,
-      setProgress,
-      setCameraMood,
-      setMusicMood,
-      setVisualMood,
-      setTransitionStyle,
-    }),
-    [state, setScene, setProgress, setCameraMood, setMusicMood, setVisualMood, setTransitionStyle],
-  );
+  return useMemo(() => ({ ...state, ...actions }), [state, actions]);
 }

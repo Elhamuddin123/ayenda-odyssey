@@ -1,21 +1,32 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import type { Mesh } from "three";
 import * as THREE from "three";
 import type { NebulaLayerDefinition } from "./nebulaConstants";
 import { createNebulaMaterial } from "./nebulaUtils";
-import { NEBULA_PLANE_SIZE } from "./nebulaConstants";
 
 interface NebulaLayerProps {
   readonly layer: NebulaLayerDefinition;
   readonly geometry: THREE.PlaneGeometry;
+  readonly opacityScale?: number;
 }
 
-export function NebulaLayer({ layer, geometry }: NebulaLayerProps) {
+export function NebulaLayer({ layer, geometry, opacityScale = 1 }: NebulaLayerProps) {
   const meshRef = useRef<Mesh>(null);
+  const materialRef = useRef<THREE.ShaderMaterial | null>(null);
   const material = useMemo(() => createNebulaMaterial(layer), [layer]);
+
+  useEffect(() => {
+    materialRef.current = material;
+  }, [material]);
+
+  useEffect(() => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uOpacity.value = layer.opacity * opacityScale;
+    }
+  }, [layer.opacity, opacityScale]);
 
   useFrame((_, delta) => {
     if (meshRef.current) {

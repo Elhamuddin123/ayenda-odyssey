@@ -1,16 +1,13 @@
 "use client";
 
-import { useEffect, type PropsWithChildren } from "react";
-import { useDirectorStore } from "./DirectorState";
-import { DefaultSceneKey } from "./SceneRegistry";
+import { type PropsWithChildren } from "react";
+import { DirectorOrchestrator } from "./DirectorOrchestrator";
 
 export function DirectorProvider({ children }: PropsWithChildren) {
-  const setScene = useDirectorStore((s) => s.setScene);
-
-  useEffect(() => {
-    // Initialize to the first scene; do not start progressing automatically.
-    setScene(DefaultSceneKey);
-  }, [setScene]);
-
-  return <>{children}</>;
+  return (
+    <>
+      <DirectorOrchestrator />
+      {children}
+    </>
+  );
 }

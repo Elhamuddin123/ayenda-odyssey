@@ -9,6 +9,7 @@ import type { SceneKey } from "../scene/sceneRegistry";
 import { EngineContextProvider } from "./engineContext";
 import { useLoadingStore } from "../loading";
 import { TimelineProvider } from "../timeline";
+import { DirectorProvider } from "../director";
 
 export default function EngineProvider() {
   const setLoadingState = useLoadingStore((state) => state.setLoadingState);
@@ -33,14 +34,16 @@ export default function EngineProvider() {
 
   return (
     <EngineContextProvider value={engineContextValue}>
-      <TimelineProvider>
-        <EngineCanvas>
-          <color attach="background" args={["#000000"]} />
-          <CameraRig />
-          <EngineLighting />
-          <SceneManager />
-        </EngineCanvas>
-      </TimelineProvider>
+      <DirectorProvider>
+        <TimelineProvider>
+          <EngineCanvas>
+            <color attach="background" args={["#000000"]} />
+            <CameraRig />
+            <EngineLighting />
+            <SceneManager />
+          </EngineCanvas>
+        </TimelineProvider>
+      </DirectorProvider>
     </EngineContextProvider>
   );
 }

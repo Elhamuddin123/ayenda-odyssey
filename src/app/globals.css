@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap");
+
 @config "../../tailwind.config.ts";
 @import "tailwindcss";
 
@@ -5,6 +7,10 @@
   color-scheme: dark;
   --experience-background: #000000;
   --experience-foreground: #f5f7ff;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
@@ -19,9 +25,29 @@ body {
   margin: 0;
   min-height: 100%;
   color: var(--experience-foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
   box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

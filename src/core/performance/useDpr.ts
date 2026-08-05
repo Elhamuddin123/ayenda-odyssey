@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useMemo } from "react";
+import { usePerformanceStore } from "./performanceStore";
 
 export function useDpr() {
-  const [dpr] = useState<[number, number]>(() => {
-    const ratio = typeof window !== "undefined" ? Math.min(Math.max(window.devicePixelRatio, 1), 2) : 1;
-    return [1, ratio];
-  });
+  const profileDpr = usePerformanceStore((state) => state.dpr);
 
-  return dpr;
+  return useMemo(() => {
+    const deviceRatio = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+    return Math.min(profileDpr, deviceRatio);
+  }, [profileDpr]);
 }

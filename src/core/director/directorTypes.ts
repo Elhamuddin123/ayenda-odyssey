@@ -3,37 +3,91 @@ export type CameraMood =
   | "Floating"
   | "Observing"
   | "Investigating"
-  | "Approaching";
+  | "Approaching"
+  | "Orbiting"
+  | "Crossing"
+  | "Retreating"
+  | "Arriving";
 
-export type MusicMood = "Silence" | "Ambient" | "DeepSpace" | "Tension" | "Discovery";
+export type MusicMood =
+  "Silence" | "Ambient" | "DeepSpace" | "Tension" | "Discovery" | "Hope" | "Finale";
 
-export type VisualMood = "Dark" | "Infinite" | "Hope" | "Mystery" | "Discovery";
+export type VisualMood =
+  | "Dark"
+  | "Infinite"
+  | "Mystery"
+  | "Hope"
+  | "Discovery"
+  | "Awe"
+  | "Rebirth"
+  | "Arrival"
+  | "Ayenda"
+  | "Website";
 
-export type TransitionStyle = "Fade" | "SlowExposure" | "LightBloom" | "Silence" | "CrossDissolve";
+export type TransitionStyle =
+  | "Fade"
+  | "SlowExposure"
+  | "LightBloom"
+  | "Silence"
+  | "CrossDissolve"
+  | "HorizonDistort"
+  | "AtmosphereBloom";
 
-export type Emotion = "Curiosity" | "Wonder" | "Mystery" | "Awe" | "Anticipation";
+export type Emotion =
+  | "Curiosity"
+  | "Wonder"
+  | "Silence"
+  | "Mystery"
+  | "Insignificance"
+  | "Exploration"
+  | "Discovery"
+  | "Awe"
+  | "Tension"
+  | "Hope"
+  | "Arrival"
+  | "Trust"
+  | "Inspiration";
+
+export type CinematicPhase =
+  "intro" | "playing" | "reversing" | "replaying" | "complete";
 
 export interface DirectorIntentions {
   currentAct: number;
   currentSceneKey: string;
-  sceneDuration: number; // seconds
-  sceneProgress: number; // 0-1
+  sceneDuration: number;
+  sceneProgress: number;
   cameraMood: CameraMood;
   musicMood: MusicMood;
   visualMood: VisualMood;
   transitionStyle: TransitionStyle;
+  cinematicPhase: CinematicPhase;
+  totalElapsedTime: number;
+  totalDuration: number;
+  isClimax: boolean;
 }
 
 export interface SceneMeta {
   readonly key: string;
+  readonly act: number;
   readonly name: string;
   readonly purpose: string;
   readonly emotion: Emotion;
-  readonly duration: number; // seconds
+  readonly baseDuration: number;
+  readonly duration: number;
   readonly cameraMood: CameraMood;
   readonly visibleObjects: string[];
   readonly lightingMood: string;
   readonly musicMood: MusicMood;
   readonly transition: TransitionStyle;
   readonly narrationPlaceholder?: string;
+  readonly climax: boolean;
+  readonly description: string;
+}
+
+export interface ActMeta {
+  readonly act: number;
+  readonly title: string;
+  readonly emotion: Emotion;
+  readonly scenes: ReadonlyArray<SceneMeta>;
+  readonly duration: number;
 }

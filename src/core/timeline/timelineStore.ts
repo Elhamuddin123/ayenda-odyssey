@@ -1,7 +1,38 @@
 import { create } from "zustand";
-import type { TimelineStore } from "./timelineTypes";
+import type { TimelineScene } from "./timelineTypes";
 
-const TIMELINE_DURATION_SECONDS = 60;
+export interface TimelineState {
+  readonly initialized: boolean;
+  readonly elapsedTime: number;
+  readonly deltaTime: number;
+  readonly progress: number;
+  readonly currentScene: TimelineScene;
+  readonly isPlaying: boolean;
+  readonly isPaused: boolean;
+  readonly playbackSpeed: number;
+  readonly duration: number;
+  readonly direction: 1 | -1;
+}
+
+export interface TimelineActions {
+  play: () => void;
+  pause: () => void;
+  resume: () => void;
+  reset: () => void;
+  seek: (progress: number) => void;
+  seekTime: (time: number) => void;
+  setDuration: (duration: number) => void;
+  setScene: (scene: TimelineScene) => void;
+  setPlaybackSpeed: (speed: number) => void;
+  setDirection: (direction: 1 | -1) => void;
+  tick: (delta: number) => void;
+}
+
+export interface TimelineStore extends TimelineState, TimelineActions {
+  initialize: () => void;
+}
+
+const INITIAL_SCENE: TimelineScene = "Universe";
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -12,10 +43,12 @@ export const useTimelineStore = create<TimelineStore>((set, get) => ({
   elapsedTime: 0,
   deltaTime: 0,
   progress: 0,
-  currentScene: "Intro",
+  currentScene: INITIAL_SCENE,
   isPlaying: false,
   isPaused: false,
   playbackSpeed: 1,
+  duration: 60,
+  direction: 1,
 
   initialize: () => set({ initialized: true }),
 
@@ -32,21 +65,36 @@ export const useTimelineStore = create<TimelineStore>((set, get) => ({
       progress: 0,
       isPlaying: false,
       isPaused: false,
+      direction: 1,
     }),
 
   seek: (progress) => {
     const normalized = clamp(progress, 0, 1);
+    const state = get();
     set({
-      elapsedTime: normalized * TIMELINE_DURATION_SECONDS,
+      elapsedTime: normalized * state.duration,
       deltaTime: 0,
       progress: normalized,
     });
   },
 
+  seekTime: (time) => {
+    const state = get();
+    const normalized = clamp(time / state.duration, 0, 1);
+    set({
+      elapsedTime: time,
+      deltaTime: 0,
+      progress: normalized,
+    });
+  },
+
+  setDuration: (duration) => set({ duration: Math.max(1, duration) }),
+
   setScene: (currentScene) => set({ currentScene }),
 
-  setPlaybackSpeed: (playbackSpeed) =>
-    set({ playbackSpeed: playbackSpeed > 0 ? playbackSpeed : 1 }),
+  setPlaybackSpeed: (playbackSpeed) => set({ playbackSpeed }),
+
+  setDirection: (direction) => set({ direction }),
 
   tick: (delta) => {
     const state = get();
@@ -58,18 +106,19 @@ export const useTimelineStore = create<TimelineStore>((set, get) => ({
       return;
     }
 
-    const adjustedDelta = delta * state.playbackSpeed;
-    const nextElapsedTime = state.elapsedTime + adjustedDelta;
-    const nextProgress = clamp(nextElapsedTime / TIMELINE_DURATION_SECONDS, 0, 1);
+    const adjustedDelta = delta * state.playbackSpeed * state.direction;
+    const nextElapsedTime = clamp(state.elapsedTime + adjustedDelta, 0, state.duration);
+    const nextProgress = state.duration > 0 ? nextElapsedTime / state.duration : 0;
+    const nextDelta = nextElapsedTime === state.elapsedTime ? 0 : adjustedDelta;
 
     if (
       state.elapsedTime !== nextElapsedTime ||
-      state.deltaTime !== adjustedDelta ||
+      state.deltaTime !== nextDelta ||
       state.progress !== nextProgress
     ) {
       set({
         elapsedTime: nextElapsedTime,
-        deltaTime: adjustedDelta,
+        deltaTime: nextDelta,
         progress: nextProgress,
       });
     }
